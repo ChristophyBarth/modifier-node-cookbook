@@ -2,6 +2,17 @@
 
 > Two-finger pinch zoom and pan. Scale clamped to `[minScale, maxScale]`.
 
+## Why this implementation?
+
+Pinch-zoom is a crowded space — `Modifier.transformable`, `zoomable` libraries, and various community recipes all exist. They're each fine for their target use case. This implementation's value is the **`Modifier.Node` story**:
+
+- **One node, three `Animatable`s, one GPU layer.** Scale, translationX, and translationY are all driven via `placeWithLayer { … }` in a single `LayoutModifierNode.measure`. The transform happens on one GraphicsLayer; no extra `Modifier.graphicsLayer` chain, no recomposition pipeline, no `Modifier.composed` indirection.
+- **Lifecycle-correct from the start.** The pointer input runs inside a `SuspendingPointerInputModifierNode` delegated from a `DelegatingNode`, so the gesture coroutine is owned by the node and cancelled in `onDetach()` automatically. No leaks if the consumer goes off-screen mid-pinch.
+- **Update-aware.** Changing `minScale` / `maxScale` calls `node.update()` and re-clamps in place. The in-flight zoom doesn't restart.
+- **~80 lines of code you can read in one sitting.** Useful as a reference if you want to build a richer zoom modifier (e.g., with bounded panning, double-tap zoom-to-fit, fling momentum) — fork this and extend it.
+
+If you need feature-rich zoom (bounded pan that respects intrinsic content size, double-tap zoom, layout-on-zoom, mosaic image tiling), reach for a dedicated library. If a clean, dependency-free, 80-line `Modifier.Node` zoom is what you want, this is it.
+
 ## When to use
 
 - Image viewers, map previews, document readers.

@@ -2,6 +2,22 @@
 
 > Long-press a row, drag vertically; rows swap positions as the dragged item passes neighbours' midpoints.
 
+## Why over `reorderable` (Saket Narayan)?
+
+The `reorderable` library by Saket and contributors is the established, production-grade choice for reorder gestures in Compose. It supports `LazyColumn`, `LazyRow`, animated sibling translations, drag handles, and a lot of polish this modifier doesn't have.
+
+**Use `reorderable` when:**
+- You're reordering inside a `LazyColumn` / `LazyRow` (the common case for long lists)
+- You want polished defaults and animations out of the box
+- You care about scroll-while-dragging, drag handles, or accessibility actions
+
+**Use this modifier when:**
+- You're reordering a small **non-lazy** list (a `Column { items.forEach { ... } }` with a fixed/short set of rows). The lazy case adds a lot of complexity that this single-file modifier intentionally doesn't try to solve.
+- You want a self-contained drop-in with zero extra dependencies (one Kotlin file, no third-party library on your dependency graph)
+- You want to read a complete, narrow `Modifier.Node` implementation of reorder mechanics — pointer gestures, mid-point swap, lift visuals, all in ~150 lines using `DelegatingNode + LayoutModifierNode`. Useful as a teaching example or as a starting point for a custom variant.
+
+In short: `reorderable` is the right tool for production lists. This modifier is the right tool for short editable lists where pulling in a dependency is overkill, or for learning how `Modifier.Node` solves gesture-driven layout.
+
 ## When to use
 
 - Editable lists (todo apps, playlists, settings ordering, dashboard widgets).

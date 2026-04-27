@@ -4,13 +4,17 @@
 
 ## Why over `basicMarquee`?
 
-Compose Foundation ships `basicMarquee` for a simple text marquee. This recipe gives you:
+Compose Foundation ships `Modifier.basicMarquee` (since 1.6) — fine for the simplest case (a single line of overflowing text in a Material chip or label). Reach for that when you don't need any of the following. Reach for this when you do:
 
-- **Direction:** `LeftToRight` and `RightToLeft`.
-- **Per-pixel velocity:** `velocityDpPerSec` lets you tune speed independent of content length.
-- **Configurable gap:** the space between the trailing edge of one copy and the leading edge of the next.
-- **Edge fades:** built-in `BlendMode.DstIn` gradient at both edges.
-- **Auto no-op:** if content fits, no animation runs; the modifier becomes invisible.
+| Capability | `basicMarquee` | `marquee` (this) |
+|---|---|---|
+| Travel direction | Locale-tied (`Ltr`/`Rtl`), follows layout direction | Explicit `LeftToRight` / `RightToLeft`, independent of locale |
+| Velocity unit | `velocity` is a `Dp` per second of the visible viewport (somewhat coupled to layout) | `velocityDpPerSec` is straight pixels-per-second of horizontal scroll. Direct, predictable. |
+| Edge fade | None | Configurable `fadeEdges` width with two modes (alpha-mask via offscreen DstIn, or solid `fadeColor` for explicit blend-into) |
+| Inter-copy gap | Fixed visual spacing | `gap: Dp` — set the literal whitespace between repeats |
+| Auto no-op | Always runs | Becomes a no-op when the child fits — no animation, no offscreen layer |
+
+If you need `basicMarquee`'s semantics-friendly text-specific behavior (it integrates with the accessibility framework's text-marquee announcements) and you don't need any of the above, use `basicMarquee`. If you're doing tickers, scrolling badges, sideways news strips, or anything non-text — `marquee` is the better fit.
 
 ## When to use
 
