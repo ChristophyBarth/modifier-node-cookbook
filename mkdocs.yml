@@ -1,0 +1,78 @@
+site_name: Modifier Node Cookbook
+site_description: A curated collection of canonical, production-ready Compose modifiers built on the Modifier.Node API.
+site_url: https://christophybarth.github.io/modifier-node-cookbook/
+repo_url: https://github.com/ChristophyBarth/modifier-node-cookbook
+repo_name: ChristophyBarth/modifier-node-cookbook
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
+    - content.code.copy
+    - content.action.edit
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+nav:
+  - Home: index.md
+  - Modifiers:
+      - pressScale: modifiers/press-scale.md
+      - shimmer: modifiers/shimmer.md
+      - skeleton: modifiers/skeleton.md
+      - hoverElevation: modifiers/hover-elevation.md
+      - fadeScrollEdges: modifiers/fade-scroll-edges.md
+      - parallax: modifiers/parallax.md
+      - tilt: modifiers/tilt.md
+      - longPressProgress: modifiers/long-press-progress.md
+      - dropShadow: modifiers/drop-shadow.md
+      - gradientBorder: modifiers/gradient-border.md
+      - colorPulse: modifiers/color-pulse.md
+      - shake: modifiers/shake.md
+      - glassmorphism: modifiers/glassmorphism.md
+      - bounceOnAppear: modifiers/bounce-on-appear.md
+      - revealOnScroll: modifiers/reveal-on-scroll.md
+      - marquee: modifiers/marquee.md
+      - swipeToDismiss: modifiers/swipe-to-dismiss.md
+      - magnetic: modifiers/magnetic.md
+      - pinchZoom: modifiers/pinch-zoom.md
+      - dragToReorder: modifiers/drag-to-reorder.md
+  - Composites:
+      - interactiveCard: modifiers/interactive-card.md
+      - loadingPlaceholder: modifiers/loading-placeholder.md
+  - Writing your own: guide/writing-your-own.md
+  - Philosophy: philosophy.md
