@@ -14,15 +14,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.github.christophybarth.cookbook.shimmer.shimmer
 import io.github.christophybarth.cookbook.skeleton.skeleton
 
 @Composable
 internal fun SkeletonScreen() {
+    val fill = Color(0xFFCCCCCC)
+    // shimmer before skeleton: skeleton does not drawContent(), so anything after it is dead.
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Box(modifier = Modifier.size(width = 240.dp, height = 80.dp).skeleton(RoundedCornerShape(12.dp)).shimmer())
-        Box(modifier = Modifier.fillMaxWidth(0.7f).height(20.dp).skeleton(RoundedCornerShape(8.dp)).shimmer())
-        Box(modifier = Modifier.fillMaxWidth(0.9f).height(14.dp).skeleton(RoundedCornerShape(8.dp)).shimmer())
+        Box(modifier = Modifier.size(width = 240.dp, height = 80.dp).shimmer().skeleton(RoundedCornerShape(12.dp), color = fill))
+        Box(modifier = Modifier.fillMaxWidth(0.7f).height(20.dp).shimmer().skeleton(RoundedCornerShape(8.dp), color = fill))
+        Box(modifier = Modifier.fillMaxWidth(0.9f).height(14.dp).shimmer().skeleton(RoundedCornerShape(8.dp), color = fill))
     }
 }

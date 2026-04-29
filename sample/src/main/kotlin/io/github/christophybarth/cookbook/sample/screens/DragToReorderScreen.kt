@@ -26,13 +26,8 @@ import io.github.christophybarth.cookbook.dragtoreorder.rememberReorderableState
 
 @Composable
 internal fun DragToReorderScreen() {
-    val state = rememberReorderableState(initial = listOf("Apples", "Bread", "Coffee", "Eggs", "Milk"))
+    val state = rememberReorderableState(initial = listOf("Apples", "Bread", "Coffee"))
     Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-        Text(
-            "Long-press a row, then drag vertically to reorder.",
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(bottom = 8.dp),
-        )
         state.items.forEach { item ->
             Box(
                 modifier = Modifier

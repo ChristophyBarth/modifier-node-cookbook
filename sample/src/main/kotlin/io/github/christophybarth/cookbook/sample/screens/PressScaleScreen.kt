@@ -8,6 +8,7 @@ package io.github.christophybarth.cookbook.sample.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,16 +28,16 @@ internal fun PressScaleScreen() {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(scale = 0.96f, color = Color(0xFF6750A4))
-        Box(scale = 0.88f, color = Color(0xFF21C386))
-        Box(scale = 0.80f, color = Color(0xFFFFB300))
+        PressTile(scale = 0.96f, color = Color(0xFF6750A4))
+        PressTile(scale = 0.88f, color = Color(0xFF21C386))
+        PressTile(scale = 0.80f, color = Color(0xFFFFB300))
         Text("Tap a tile", style = MaterialTheme.typography.bodySmall)
     }
 }
 
 @Composable
-private fun Box(scale: Float, color: Color) {
-    androidx.compose.foundation.layout.Box(
+private fun PressTile(scale: Float, color: Color) {
+    Box(
         modifier = Modifier
             .size(72.dp)
             .pressScale(scale = scale)

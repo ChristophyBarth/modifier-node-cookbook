@@ -6,15 +6,14 @@
 package io.github.christophybarth.cookbook.sample.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -22,19 +21,30 @@ import io.github.christophybarth.cookbook.magnetic.magnetic
 
 @Composable
 internal fun MagneticScreen() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-        Text(
-            "Drag the dot horizontally. Anchors are clustered on the left (-120 to -20 dp in 20 dp steps), then 0 and +120 dp. " +
-                "Notice how the dot snaps tightly between the close-spaced anchors and travels freely across the gap to +120.",
-            style = MaterialTheme.typography.bodySmall,
-        )
+    val anchors = listOf((-120).dp, (-60).dp, 0.dp, 60.dp, 120.dp)
+    Box(
+        modifier = Modifier.fillMaxWidth().height(140.dp),
+        contentAlignment = Alignment.Center,
+    ) {
         Box(
             modifier = Modifier
-                .size(48.dp)
-                .magnetic(
-                    anchors = listOf((-120).dp, (-100).dp, (-80).dp, (-60).dp, (-40).dp, (-20).dp, 0.dp, 120.dp),
-                    snapThreshold = 40.dp,
-                )
+                .fillMaxWidth(0.85f)
+                .height(4.dp)
+                .background(Color(0xFFCBD5E1), CircleShape),
+        )
+        anchors.forEach { offset ->
+            Box(
+                modifier = Modifier
+                    .offset(x = offset)
+                    .size(12.dp)
+                    .background(Color(0xFF475569), CircleShape),
+            )
+        }
+        // snapThreshold > half the spacing so every release point is in range of an anchor.
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .magnetic(anchors = anchors, snapThreshold = 50.dp)
                 .background(Color(0xFF6366F1), CircleShape),
         )
     }

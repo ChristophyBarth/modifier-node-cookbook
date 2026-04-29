@@ -15,15 +15,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.github.christophybarth.cookbook.composites.loadingPlaceholder
 
 @Composable
 internal fun LoadingPlaceholderScreen() {
+    val fill = Color(0xFFCCCCCC)
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Box(modifier = Modifier.size(width = 240.dp, height = 80.dp).loadingPlaceholder(RoundedCornerShape(12.dp)))
-        Box(modifier = Modifier.fillMaxWidth(0.7f).height(20.dp).loadingPlaceholder(RoundedCornerShape(8.dp)))
-        Box(modifier = Modifier.fillMaxWidth(0.9f).height(14.dp).loadingPlaceholder(RoundedCornerShape(8.dp)))
-        Box(modifier = Modifier.size(48.dp).loadingPlaceholder(CircleShape))
+        Box(modifier = Modifier.size(width = 240.dp, height = 80.dp).loadingPlaceholder(RoundedCornerShape(12.dp), color = fill))
+        Box(modifier = Modifier.fillMaxWidth(0.7f).height(20.dp).loadingPlaceholder(RoundedCornerShape(8.dp), color = fill))
+        Box(modifier = Modifier.fillMaxWidth(0.9f).height(14.dp).loadingPlaceholder(RoundedCornerShape(8.dp), color = fill))
+        Box(modifier = Modifier.size(48.dp).loadingPlaceholder(CircleShape, color = fill))
     }
 }

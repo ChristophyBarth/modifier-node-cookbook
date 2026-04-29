@@ -28,7 +28,7 @@ internal fun ShimmerScreen() {
             modifier = Modifier
                 .size(width = 240.dp, height = 120.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(Color(0xFFE0E0E0))
+                .background(Color(0xFFCCCCCC))
                 .shimmer(),
         )
         // Headline placeholder
@@ -37,7 +37,7 @@ internal fun ShimmerScreen() {
                 .fillMaxWidth(0.6f)
                 .height(20.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xFFE0E0E0))
+                .background(Color(0xFFCCCCCC))
                 .shimmer(),
         )
         // Body line placeholder
@@ -46,7 +46,7 @@ internal fun ShimmerScreen() {
                 .fillMaxWidth(0.9f)
                 .height(14.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color(0xFFE0E0E0))
+                .background(Color(0xFFCCCCCC))
                 .shimmer(),
         )
     }
