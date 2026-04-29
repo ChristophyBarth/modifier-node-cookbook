@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.marquee
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
@@ -42,10 +43,10 @@ class MarqueeTest {
     fun renders_short_content_without_crashing() {
         composeRule.setContent {
             // Inner content is narrower than the container, so marquee is a no-op.
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.width(160.dp).testTag("mq").marquee(),
             ) {
-                androidx.compose.foundation.layout.Box(modifier = Modifier.size(40.dp))
+                Box(modifier = Modifier.size(40.dp))
             }
         }
         composeRule.onNodeWithTag("mq").assertExists()

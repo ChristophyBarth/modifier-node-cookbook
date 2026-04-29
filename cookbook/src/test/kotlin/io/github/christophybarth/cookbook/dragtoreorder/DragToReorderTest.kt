@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.dragtoreorder
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,7 +43,7 @@ class DragToReorderTest {
             val state = remember { ReorderableState(listOf("a", "b", "c")) }
             Column {
                 state.items.forEach { row ->
-                    androidx.compose.foundation.layout.Box(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(40.dp)

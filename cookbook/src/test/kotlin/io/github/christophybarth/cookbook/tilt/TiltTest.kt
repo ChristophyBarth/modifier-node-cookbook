@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.tilt
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -40,7 +41,7 @@ class TiltTest {
     fun max_angle_change_keeps_node_attached() {
         var maxAngle by mutableFloatStateOf(12f)
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(48.dp).testTag("t").tilt(maxAngleDeg = maxAngle),
             )
         }

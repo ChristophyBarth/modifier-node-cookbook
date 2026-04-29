@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.skeleton
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.getValue
@@ -36,7 +37,7 @@ class SkeletonTest {
     fun shape_change_keeps_node_attached() {
         var shape: Shape by mutableStateOf(RoundedCornerShape(4.dp))
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(48.dp).testTag("sk").skeleton(shape = shape, color = Color.LightGray),
             )
         }

@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.colorpulse
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +40,7 @@ class ColorPulseTest {
     @Test
     fun renders_without_crashing() {
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(24.dp).testTag("cp").colorPulse(),
             )
         }

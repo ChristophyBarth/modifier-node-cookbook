@@ -7,6 +7,7 @@ package io.github.christophybarth.cookbook.shimmer
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -49,7 +50,7 @@ class ShimmerTest {
     fun parameter_change_keeps_the_same_node_attached() {
         var duration by mutableIntStateOf(800)
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier
                     .size(120.dp, 24.dp)
                     .testTag("placeholder")
@@ -66,7 +67,7 @@ class ShimmerTest {
     @Test
     fun repeat_mode_reverse_renders_without_crashing() {
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier
                     .size(120.dp, 24.dp)
                     .background(Color.LightGray)

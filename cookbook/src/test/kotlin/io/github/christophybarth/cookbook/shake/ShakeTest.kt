@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.shake
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -44,7 +45,7 @@ class ShakeTest {
     fun trigger_change_keeps_node_attached() {
         var trig by mutableIntStateOf(0)
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(48.dp).testTag("sk").shake(trigger = trig),
             )
         }

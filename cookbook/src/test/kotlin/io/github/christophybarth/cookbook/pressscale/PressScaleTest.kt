@@ -6,6 +6,7 @@
 package io.github.christophybarth.cookbook.pressscale
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,7 +47,7 @@ class PressScaleTest {
     fun parameter_change_updates_node_without_recreating() {
         var pressScale by mutableStateOf(0.96f)
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier
                     .size(48.dp)
                     .testTag("target")

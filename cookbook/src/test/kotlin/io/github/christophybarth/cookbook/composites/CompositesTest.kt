@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.composites
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -29,7 +30,7 @@ class CompositesTest {
     @Test
     fun interactive_card_renders_without_crashing() {
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(96.dp).testTag("ic").interactiveCard(),
             )
         }
@@ -39,7 +40,7 @@ class CompositesTest {
     @Test
     fun loading_placeholder_renders_without_crashing() {
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(120.dp, 24.dp).testTag("lp").loadingPlaceholder(),
             )
         }

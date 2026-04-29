@@ -6,6 +6,7 @@
 package io.github.christophybarth.cookbook.hoverelevation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +46,7 @@ class HoverElevationTest {
     fun parameter_change_keeps_node_attached() {
         var resting: Dp by mutableStateOf(2.dp)
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(48.dp).testTag("card").hoverElevation(restingDp = resting).background(Color.White),
             )
         }

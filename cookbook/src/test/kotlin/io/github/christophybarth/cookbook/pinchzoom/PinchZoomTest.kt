@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.pinchzoom
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -38,7 +39,7 @@ class PinchZoomTest {
     @Test
     fun renders_without_crashing() {
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(96.dp).testTag("pz").pinchZoom(),
             )
         }

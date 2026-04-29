@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.bounceonappear
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -36,7 +37,7 @@ class BounceOnAppearTest {
     @Test
     fun renders_without_crashing() {
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(48.dp).testTag("b").bounceOnAppear(),
             )
         }

@@ -5,6 +5,7 @@
 
 package io.github.christophybarth.cookbook.gradientborder
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +42,7 @@ class GradientBorderTest {
     @Test
     fun static_mode_renders_without_crashing() {
         composeRule.setContent {
-            androidx.compose.foundation.layout.Box(
+            Box(
                 modifier = Modifier.size(48.dp).testTag("gb").gradientBorder(animate = false),
             )
         }
