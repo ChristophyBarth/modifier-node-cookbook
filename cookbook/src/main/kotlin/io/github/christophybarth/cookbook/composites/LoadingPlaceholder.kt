@@ -14,8 +14,10 @@ import io.github.christophybarth.cookbook.shimmer.shimmer
 import io.github.christophybarth.cookbook.skeleton.skeleton
 
 /**
- * Combines [skeleton] and [shimmer] into the canonical "content is loading" placeholder. The
- * skeleton paints an opaque shape; the shimmer sweeps a highlight across it.
+ * Combines [skeleton] and [shimmer] into the canonical "content is loading" placeholder.
+ *
+ * Wired as `shimmer().skeleton(...)`: shimmer must be outer because [skeleton] does not call
+ * `drawContent()` and would otherwise short-circuit any inner draw modifier.
  *
  * @param shape Outline used by the skeleton fill.
  * @param color Fill colour for the skeleton.
@@ -25,4 +27,4 @@ import io.github.christophybarth.cookbook.skeleton.skeleton
 public fun Modifier.loadingPlaceholder(
     shape: Shape = RoundedCornerShape(8.dp),
     color: Color = Color(0xFFE0E0E0),
-): Modifier = this.skeleton(shape = shape, color = color).shimmer()
+): Modifier = this.shimmer().skeleton(shape = shape, color = color)

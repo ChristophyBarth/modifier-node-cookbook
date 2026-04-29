@@ -64,7 +64,8 @@ import io.github.christophybarth.cookbook.tilt.tilt
 }
 
 @Composable public fun SkeletonSample() {
-    Box(Modifier.size(width = 200.dp, height = 64.dp).skeleton(RoundedCornerShape(12.dp)).shimmer())
+    // shimmer before skeleton: skeleton does not drawContent(), so anything after it is dead.
+    Box(Modifier.size(width = 200.dp, height = 64.dp).shimmer().skeleton(RoundedCornerShape(12.dp)))
 }
 
 @Composable public fun HoverElevationSample() {

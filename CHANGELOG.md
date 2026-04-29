@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-04-29
+
+### Fixed
+
+- `Modifier.loadingPlaceholder` now actually shimmers. The internal chain was reversed to `shimmer().skeleton(...)` — `Modifier.skeleton` does not call `drawContent()` (it replaces content), so anything chained inner of it never runs. Direct `.skeleton().shimmer()` users should swap to `.shimmer().skeleton()`; the constraint is now documented on `Modifier.skeleton`.
+
 ## [0.1.0] - 2026-04-27
 
 Initial release. Twenty production-ready standalone modifiers and two composites, all built on `Modifier.Node`. No `Modifier.composed` anywhere.
@@ -36,4 +42,5 @@ Initial release. Twenty production-ready standalone modifiers and two composites
 
 Sample app with one screen per modifier. MkDocs Material doc site. CI on PRs, doc deploy on `main`, Maven Central publish on tag.
 
+[0.1.1]: https://github.com/ChristophyBarth/modifier-node-cookbook/releases/tag/v0.1.1
 [0.1.0]: https://github.com/ChristophyBarth/modifier-node-cookbook/releases/tag/v0.1.0

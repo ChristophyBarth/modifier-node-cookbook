@@ -24,12 +24,13 @@ import androidx.compose.ui.unit.dp
 
 /**
  * Replaces the receiver's drawn content with an opaque shape, intended as a placeholder while
- * real content loads. Composes cleanly with [io.github.christophybarth.cookbook.shimmer.shimmer]
- * stacked on top to give the placeholder motion.
+ * real content loads. `drawContent()` is intentionally not called — keeps the placeholder cheap
+ * and prevents partly-loaded content from ghosting through.
  *
- * The skeleton **replaces** content rather than painting over it; `drawContent()` is intentionally
- * not called. That keeps the placeholder cheap (no off-screen render of the real content) and
- * avoids "ghosting" where partly-loaded content peeks through.
+ * Chaining with [io.github.christophybarth.cookbook.shimmer.shimmer]: apply `shimmer` **before**
+ * `skeleton` (`Modifier.shimmer().skeleton(...)`). Anything chained inner of `skeleton` is never
+ * drawn. The [io.github.christophybarth.cookbook.composites.loadingPlaceholder] composite already
+ * wires this order.
  *
  * @param shape Outline used to clip and fill the placeholder. Defaults to an 8.dp rounded rect.
  * @param color Fill colour. The default is a light neutral that reads as "loading" on most
