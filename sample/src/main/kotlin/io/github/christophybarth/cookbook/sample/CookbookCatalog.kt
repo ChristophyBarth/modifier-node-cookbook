@@ -84,10 +84,13 @@ internal fun CatalogMenu(
 internal enum class HeroBackground {
     /** MaterialTheme surface variant. Default — works for most colored content. */
     Neutral,
+
     /** Near-white. Best for shimmer/skeleton/dropShadow where light grey content needs contrast. */
     Light,
+
     /** Deep slate. Best for gradient borders and color pulses that pop against dark. */
     Dark,
+
     /** Skip the surface entirely — the demo provides its own background (glass, marquee). */
     Own,
 }
@@ -110,27 +113,14 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Scales down on press; springs back on release.",
         background = HeroBackground.Neutral,
         code = """
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                PressTile(scale = 0.96f, color = Color(0xFF6750A4))
-                PressTile(scale = 0.88f, color = Color(0xFF21C386))
-                PressTile(scale = 0.80f, color = Color(0xFFFFB300))
-                Text("Tap a tile", style = MaterialTheme.typography.bodySmall)
-            }
-
-            @Composable
-            private fun PressTile(scale: Float, color: Color) {
-                Box(
-                    modifier = Modifier
-                        .size(72.dp)
-                        .pressScale(scale = scale)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(color)
-                        .clickable { /* visual demo only */ },
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .size(72.dp)
+                    .pressScale(scale = 0.88f)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color(0xFF6750A4))
+                    .clickable { },
+            )
         """.trimIndent(),
     ) { PressScaleScreen() },
     CatalogEntry(
@@ -139,34 +129,13 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Sweeps a translucent gradient over content. Loading state in motion.",
         background = HeroBackground.Light,
         code = """
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                // Card-shaped placeholder
-                Box(
-                    modifier = Modifier
-                        .size(width = 240.dp, height = 120.dp)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(Color(0xFFCCCCCC))
-                        .shimmer(),
-                )
-                // Headline placeholder
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.6f)
-                        .height(20.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xFFCCCCCC))
-                        .shimmer(),
-                )
-                // Body line placeholder
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.9f)
-                        .height(14.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xFFCCCCCC))
-                        .shimmer(),
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .size(width = 240.dp, height = 120.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFFCCCCCC))
+                    .shimmer(),
+            )
         """.trimIndent(),
     ) { ShimmerScreen() },
     CatalogEntry(
@@ -175,13 +144,13 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Opaque placeholder shape. Composes with shimmer.",
         background = HeroBackground.Light,
         code = """
-            val fill = Color(0xFFCCCCCC)
-            // shimmer before skeleton: skeleton does not drawContent(), so anything after it is dead.
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(modifier = Modifier.size(width = 240.dp, height = 80.dp).shimmer().skeleton(RoundedCornerShape(12.dp), color = fill))
-                Box(modifier = Modifier.fillMaxWidth(0.7f).height(20.dp).shimmer().skeleton(RoundedCornerShape(8.dp), color = fill))
-                Box(modifier = Modifier.fillMaxWidth(0.9f).height(14.dp).shimmer().skeleton(RoundedCornerShape(8.dp), color = fill))
-            }
+            // shimmer before skeleton: skeleton does not call drawContent().
+            Box(
+                modifier = Modifier
+                    .size(width = 240.dp, height = 80.dp)
+                    .shimmer()
+                    .skeleton(RoundedCornerShape(12.dp), color = Color(0xFFCCCCCC)),
+            )
         """.trimIndent(),
     ) { SkeletonScreen() },
     CatalogEntry(
@@ -190,11 +159,12 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Animates shadow elevation on mouse / stylus hover.",
         background = HeroBackground.Light,
         code = """
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(96.dp).hoverElevation(restingDp = 2.dp, hoveredDp = 16.dp).background(Color.White))
-                Box(modifier = Modifier.size(96.dp).hoverElevation(restingDp = 4.dp, hoveredDp = 24.dp).background(Color.White))
-                Text("Hover with mouse", style = MaterialTheme.typography.bodySmall)
-            }
+            Box(
+                modifier = Modifier
+                    .size(96.dp)
+                    .hoverElevation(restingDp = 2.dp, hoveredDp = 16.dp)
+                    .background(Color.White),
+            )
         """.trimIndent(),
     ) { HoverElevationScreen() },
     CatalogEntry(
@@ -204,21 +174,9 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         background = HeroBackground.Own,
         code = """
             val scroll = rememberScrollState()
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp)
-                    .background(Color(0xFFFAFAFA))
-                    .fadeScrollEdges(scroll),
-            ) {
-                Column(modifier = Modifier.verticalScroll(scroll).padding(16.dp)) {
-                    repeat(40) { i ->
-                        Text(
-                            text = "Row #${'$'}i, scrolls under fading edges",
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(vertical = 4.dp),
-                        )
-                    }
+            Box(modifier = Modifier.height(220.dp).fadeScrollEdges(scroll)) {
+                Column(modifier = Modifier.verticalScroll(scroll)) {
+                    repeat(40) { Text("Row #${'$'}it") }
                 }
             }
         """.trimIndent(),
@@ -230,25 +188,17 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         background = HeroBackground.Own,
         code = """
             val scroll = rememberScrollState()
-            Box(modifier = Modifier.fillMaxWidth().height(220.dp)) {
-                // Background hero that parallax-shifts as the foreground scrolls.
+            Box {
+                // Background shifts at half the foreground's scroll rate.
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp)
                         .parallax(scroll, factor = 0.5f)
-                        .background(Color(0xFF6750A4))
-                        .align(Alignment.TopCenter),
+                        .background(Color(0xFF6750A4)),
                 )
-                Column(modifier = Modifier.verticalScroll(scroll).padding(top = 80.dp)) {
-                    repeat(20) { i ->
-                        Text(
-                            text = "Foreground row #${'$'}i",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White,
-                            modifier = Modifier.fillMaxWidth().background(Color.DarkGray).padding(8.dp),
-                        )
-                    }
+                Column(modifier = Modifier.verticalScroll(scroll)) {
+                    repeat(20) { Text("Row #${'$'}it") }
                 }
             }
         """.trimIndent(),
@@ -259,22 +209,13 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "3D card-tilt that follows pointer position.",
         background = HeroBackground.Neutral,
         code = """
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(160.dp)
-                        .tilt(maxAngleDeg = 12f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Brush.linearGradient(listOf(Color(0xFF21C386), Color(0xFF1976D2)))),
-                )
-                Box(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .tilt(maxAngleDeg = 20f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFFFFB300)),
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .size(160.dp)
+                    .tilt(maxAngleDeg = 12f)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color(0xFF21C386)),
+            )
         """.trimIndent(),
     ) { TiltScreen() },
     CatalogEntry(
@@ -283,16 +224,12 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Radial progress arc while long-press is held.",
         background = HeroBackground.Neutral,
         code = """
-            var fired by remember { mutableIntStateOf(0) }
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(96.dp)
-                        .background(Color(0xFFEF4444), CircleShape)
-                        .longPressProgress(durationMs = 1_000L) { fired++ },
-                )
-                Text("Hold the circle (${'$'}fired completions)", style = MaterialTheme.typography.bodyMedium)
-            }
+            Box(
+                modifier = Modifier
+                    .size(96.dp)
+                    .background(Color(0xFFEF4444), CircleShape)
+                    .longPressProgress(durationMs = 1_000L) { /* completed */ },
+            )
         """.trimIndent(),
     ) { LongPressProgressScreen() },
     CatalogEntry(
@@ -301,32 +238,18 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Custom drop shadow untied from Material elevation.",
         background = HeroBackground.Light,
         code = """
-            Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .dropShadow(
-                            color = Color.Black.copy(alpha = 0.18f),
-                            blur = 12.dp,
-                            offset = DpOffset(0.dp, 4.dp),
-                            shape = RoundedCornerShape(16.dp),
-                        )
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color.White),
-                )
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .dropShadow(
-                            color = Color(0xFF6366F1).copy(alpha = 0.45f),
-                            blur = 24.dp,
-                            offset = DpOffset(0.dp, 8.dp),
-                            shape = RoundedCornerShape(16.dp),
-                        )
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color.White),
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .size(80.dp)
+                    .dropShadow(
+                        color = Color.Black.copy(alpha = 0.18f),
+                        blur = 12.dp,
+                        offset = DpOffset(0.dp, 4.dp),
+                        shape = RoundedCornerShape(16.dp),
+                    )
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.White),
+            )
         """.trimIndent(),
     ) { DropShadowScreen() },
     CatalogEntry(
@@ -335,27 +258,13 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Animated gradient stroke around the receiver.",
         background = HeroBackground.Dark,
         code = """
-            Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                Box(
-                    modifier = Modifier
-                        .size(96.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF111827))
-                        .gradientBorder(width = 3.dp, shape = RoundedCornerShape(16.dp)),
-                )
-                Box(
-                    modifier = Modifier
-                        .size(96.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF111827))
-                        .gradientBorder(
-                            colors = listOf(Color(0xFF22D3EE), Color(0xFF8B5CF6), Color(0xFF22D3EE)),
-                            width = 6.dp,
-                            durationMillis = 5_000,
-                            shape = RoundedCornerShape(16.dp),
-                        ),
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .size(96.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color(0xFF111827))
+                    .gradientBorder(width = 3.dp, shape = RoundedCornerShape(16.dp)),
+            )
         """.trimIndent(),
     ) { GradientBorderScreen() },
     CatalogEntry(
@@ -364,27 +273,14 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Periodic colour cycling for badges and attention.",
         background = HeroBackground.Neutral,
         code = """
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(16.dp)
-                        .colorPulse(
-                            colors = listOf(Color(0xFFEF4444), Color(0xFFFB923C), Color(0xFFEF4444)),
-                            shape = CircleShape,
-                        ),
-                )
-                Text("3 unread", style = MaterialTheme.typography.bodyMedium)
-                Box(
-                    modifier = Modifier
-                        .size(20.dp)
-                        .colorPulse(
-                            colors = listOf(Color(0xFF10B981), Color(0xFF34D399), Color(0xFF10B981)),
-                            durationMs = 2_400,
-                            shape = CircleShape,
-                        ),
-                )
-                Text("Live", style = MaterialTheme.typography.bodyMedium)
-            }
+            Box(
+                modifier = Modifier
+                    .size(16.dp)
+                    .colorPulse(
+                        colors = listOf(Color(0xFFEF4444), Color(0xFFFB923C), Color(0xFFEF4444)),
+                        shape = CircleShape,
+                    ),
+            )
         """.trimIndent(),
     ) { ColorPulseScreen() },
     CatalogEntry(
@@ -394,16 +290,14 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         background = HeroBackground.Neutral,
         code = """
             var trigger by remember { mutableIntStateOf(0) }
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(96.dp)
-                        .shake(trigger = trigger, oscillations = 10, durationMs = 5000)
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(Color(0xFFEF4444)),
-                )
-                Button(onClick = { trigger++ }) { Text("Trigger error") }
-            }
+            Box(
+                modifier = Modifier
+                    .size(96.dp)
+                    .shake(trigger = trigger)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(0xFFEF4444)),
+            )
+            Button(onClick = { trigger++ }) { Text("Shake") }
         """.trimIndent(),
     ) { ShakeScreen() },
     CatalogEntry(
@@ -412,43 +306,20 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Backdrop sampler that reads as glass. Defaults are clear; raise saturation, sheen and border for frosted.",
         background = HeroBackground.Own,
         code = """
-            // glassSource records the backdrop; glass replays it blurred at the source's offset.
             val state = rememberGlassState()
-            val pager = rememberPagerState(pageCount = { pages.size })
             val shape = RoundedCornerShape(14.dp)
-            Box(modifier = Modifier.fillMaxWidth().height(240.dp).clip(RoundedCornerShape(20.dp))) {
-                HorizontalPager(state = pager, modifier = Modifier.fillMaxSize().glassSource(state)) { i ->
-                    AsyncImage(model = pages[i], contentDescription = null,
-                        contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
-                }
-
-                // Clear glass.
+            Box {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize().glassSource(state),
+                )
                 Box(
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .padding(12.dp)
                         .clip(shape)
                         .glass(state, shape = shape)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                ) {
-                    Text("Clear glass · page ${'$'}{pager.currentPage + 1}", color = Color.White)
-                }
-
-                // Frosted glass.
-                Box(
-                    modifier = Modifier
-                        .clip(shape)
-                        .glass(
-                            state,
-                            blurRadius = 24.dp,
-                            saturation = 1.6f,
-                            tint = Color.White.copy(alpha = 0.15f),
-                            sheenAlpha = 0.18f,
-                            borderAlpha = 0.45f,
-                            shape = shape,
-                        ),
-                ) { Text("Frosted glass · page ${'$'}{pager.currentPage + 1}", color = Color.White) }
+                        .padding(16.dp),
+                ) { Text("Glass panel", color = Color.White) }
             }
         """.trimIndent(),
     ) { GlassScreen() },
@@ -458,22 +329,12 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Single-shot entry bounce on attach.",
         background = HeroBackground.Neutral,
         code = """
-            var version by remember { mutableIntStateOf(0) }
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(modifier = Modifier.size(72.dp)) {
-                    // key(version) forces a full remount when version changes, which detaches
-                    // then re-attaches the bounceOnAppear node, replaying the spring animation.
-                    key(version) {
-                        Box(
-                            modifier = Modifier
-                                .size(72.dp)
-                                .bounceOnAppear()
-                                .background(Color(0xFF1976D2), CircleShape),
-                        )
-                    }
-                }
-                Button(onClick = { version++ }) { Text("Replay") }
-            }
+            Box(
+                modifier = Modifier
+                    .size(72.dp)
+                    .bounceOnAppear()
+                    .background(Color(0xFF1976D2), CircleShape),
+            )
         """.trimIndent(),
     ) { BounceOnAppearScreen() },
     CatalogEntry(
@@ -482,25 +343,15 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Fade + translate in as element enters the viewport.",
         background = HeroBackground.Own,
         code = """
-            val scroll = rememberScrollState()
-            Box(
-                modifier = Modifier.fillMaxWidth().height(220.dp).background(Color(0xFFF1F5F9)),
-            ) {
-                Column(modifier = Modifier.verticalScroll(scroll).padding(16.dp)) {
-                    Text("Scroll down…", style = MaterialTheme.typography.bodyLarge)
-                    repeat(8) { Box(Modifier.height(40.dp)) }
-                    repeat(6) { i ->
-                        Box(
-                            modifier = Modifier
-                                .padding(vertical = 8.dp)
-                                .fillMaxWidth()
-                                .height(48.dp)
-                                .revealOnScroll()
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(Color(0xFF6366F1)),
-                            contentAlignment = Alignment.Center,
-                        ) { Text("Reveal #${'$'}i", color = Color.White) }
-                    }
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                repeat(6) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                            .revealOnScroll()
+                            .background(Color(0xFF6366F1)),
+                    )
                 }
             }
         """.trimIndent(),
@@ -511,46 +362,13 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Auto-scroll on overflow with configurable velocity.",
         background = HeroBackground.Own,
         code = """
-            val darkBg = Color(0xFF111827)
-            val indigoBg = Color(0xFF6366F1)
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                // Default fade: alpha mask. The DstIn fade now lands on an offscreen layer
-                // thanks to the graphicsLayer chained inside the modifier, so edges go
-                // genuinely transparent and the dark background drawn behind bleeds through.
-                // Note the modifier order: padding is AFTER marquee so the marquee wraps
-                // the padded content. That makes the fade rect span the full coloured row
-                // height instead of only the inner text height.
-                Text(
-                    text = "Now playing: …",
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(darkBg)
-                        .marquee(direction = MarqueeDirection.RightToLeft, fadeEdges = 16.dp)
-                        .padding(vertical = 8.dp),
-                )
-                // Explicit fadeColor: paints a coloured gradient on top of the text. Useful
-                // when you want the fade to match a known surface even if the layer order
-                // would not allow the alpha mask to bleed through.
-                Text(
-                    text = "Slow ticker LeftToRight ::: …",
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyMedium,
-                    maxLines = 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(indigoBg)
-                        .marquee(
-                            direction = MarqueeDirection.LeftToRight,
-                            velocityDpPerSec = 30.dp,
-                            fadeEdges = 30.dp,
-                            fadeColor = darkBg,
-                        )
-                        .padding(vertical = 8.dp),
-                )
-            }
+            Text(
+                text = "Now playing long song title that overflows...",
+                maxLines = 1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .marquee(direction = MarqueeDirection.RightToLeft, fadeEdges = 16.dp),
+            )
         """.trimIndent(),
     ) { MarqueeScreen() },
     CatalogEntry(
@@ -559,26 +377,18 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Drag past threshold dismisses; springs back otherwise.",
         background = HeroBackground.Neutral,
         code = """
-            var rows by remember { mutableStateOf(listOf("Row 1", "Row 2", "Row 3", "Row 4")) }
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-                rows.forEach { row ->
-                    // key(row) ensures each row owns its own SwipeToDismissNode. Without it,
-                    // removing Row 1 causes Compose to reuse its node (fully-swiped offset)
-                    // for Row 2.
-                    key(row) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(56.dp)
-                                .swipeToDismiss(onDismiss = { rows = rows - row })
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(Color(0xFF1976D2))
-                                .padding(horizontal = 16.dp),
-                            contentAlignment = Alignment.CenterStart,
-                        ) {
-                            Text(row, color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                        }
-                    }
+            var rows by remember { mutableStateOf(listOf("Row 1", "Row 2", "Row 3")) }
+            rows.forEach { row ->
+                // key(row) so each row owns its own swipe node; otherwise Compose reuses
+                // the dismissed row's offset for whatever takes its place.
+                key(row) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .swipeToDismiss(onDismiss = { rows = rows - row })
+                            .background(Color(0xFF1976D2)),
+                    ) { Text(row, color = Color.White) }
                 }
             }
         """.trimIndent(),
@@ -589,33 +399,13 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Drag snaps to the nearest anchor on release.",
         background = HeroBackground.Neutral,
         code = """
-            val anchors = listOf((-120).dp, (-60).dp, 0.dp, 60.dp, 120.dp)
+            val anchors = listOf((-120).dp, 0.dp, 120.dp)
             Box(
-                modifier = Modifier.fillMaxWidth().height(140.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(0.85f)
-                        .height(4.dp)
-                        .background(Color(0xFFCBD5E1), CircleShape),
-                )
-                anchors.forEach { offset ->
-                    Box(
-                        modifier = Modifier
-                            .offset(x = offset)
-                            .size(12.dp)
-                            .background(Color(0xFF475569), CircleShape),
-                    )
-                }
-                // snapThreshold > half the spacing so every release point is in range of an anchor.
-                Box(
-                    modifier = Modifier
-                        .size(56.dp)
-                        .magnetic(anchors = anchors, snapThreshold = 50.dp)
-                        .background(Color(0xFF6366F1), CircleShape),
-                )
-            }
+                modifier = Modifier
+                    .size(56.dp)
+                    .magnetic(anchors = anchors, snapThreshold = 60.dp)
+                    .background(Color(0xFF6366F1), CircleShape),
+            )
         """.trimIndent(),
     ) { MagneticScreen() },
     CatalogEntry(
@@ -628,15 +418,9 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(220.dp)
-                    .clip(RoundedCornerShape(16.dp))
                     .pinchZoom(minScale = 1f, maxScale = 5f)
-                    .background(
-                        Brush.radialGradient(listOf(Color(0xFF22D3EE), Color(0xFF8B5CF6), Color(0xFFEF4444))),
-                    ),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text("Pinch to zoom", color = Color.White, style = MaterialTheme.typography.titleMedium)
-            }
+                    .background(Brush.radialGradient(listOf(Color(0xFF22D3EE), Color(0xFFEF4444)))),
+            )
         """.trimIndent(),
     ) { PinchZoomScreen() },
     CatalogEntry(
@@ -646,21 +430,14 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         background = HeroBackground.Neutral,
         code = """
             val state = rememberReorderableState(initial = listOf("Apples", "Bread", "Coffee"))
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
-                state.items.forEach { item ->
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .dragToReorder(state, item)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(Color(0xFF21C386))
-                            .padding(horizontal = 12.dp),
-                        contentAlignment = Alignment.CenterStart,
-                    ) {
-                        Text(item, color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
+            state.items.forEach { item ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .dragToReorder(state, item)
+                        .background(Color(0xFF21C386)),
+                ) { Text(item, color = Color.White) }
             }
         """.trimIndent(),
     ) { DragToReorderScreen() },
@@ -670,24 +447,14 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Composite: pressScale + tilt + hoverElevation.",
         background = HeroBackground.Neutral,
         code = """
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                Box(
-                    modifier = Modifier
-                        .size(140.dp)
-                        .interactiveCard()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Brush.linearGradient(listOf(Color(0xFF6366F1), Color(0xFFEC4899))))
-                        .clickable { /* tap */ },
-                )
-                Box(
-                    modifier = Modifier
-                        .size(140.dp)
-                        .interactiveCard(tiltAngleDeg = 14f)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Brush.linearGradient(listOf(Color(0xFF22D3EE), Color(0xFF8B5CF6))))
-                        .clickable { /* tap */ },
-                )
-            }
+            Box(
+                modifier = Modifier
+                    .size(140.dp)
+                    .interactiveCard()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color(0xFF6366F1))
+                    .clickable { },
+            )
         """.trimIndent(),
     ) { InteractiveCardScreen() },
     CatalogEntry(
@@ -696,13 +463,11 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         description = "Composite: skeleton + shimmer.",
         background = HeroBackground.Light,
         code = """
-            val fill = Color(0xFFCCCCCC)
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(modifier = Modifier.size(width = 240.dp, height = 80.dp).loadingPlaceholder(RoundedCornerShape(12.dp), color = fill))
-                Box(modifier = Modifier.fillMaxWidth(0.7f).height(20.dp).loadingPlaceholder(RoundedCornerShape(8.dp), color = fill))
-                Box(modifier = Modifier.fillMaxWidth(0.9f).height(14.dp).loadingPlaceholder(RoundedCornerShape(8.dp), color = fill))
-                Box(modifier = Modifier.size(48.dp).loadingPlaceholder(CircleShape, color = fill))
-            }
+            Box(
+                modifier = Modifier
+                    .size(width = 240.dp, height = 80.dp)
+                    .loadingPlaceholder(RoundedCornerShape(12.dp), color = Color(0xFFCCCCCC)),
+            )
         """.trimIndent(),
     ) { LoadingPlaceholderScreen() },
 )
