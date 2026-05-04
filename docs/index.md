@@ -14,7 +14,7 @@ dependencyResolutionManagement {
 
 // app/build.gradle.kts
 dependencies {
-    implementation("io.github.christophybarth:modifier-node-cookbook:0.1.0")
+    implementation("io.github.christophybarth:modifier-node-cookbook:0.1.1")
 }
 ```
 
@@ -62,8 +62,9 @@ If your modifier reaches for `composed { remember { … } }`, you have a node-sh
 | [`longPressProgress`](modifiers/long-press-progress.md) | Radial progress arc while long-press is held. |
 | [`marquee`](modifiers/marquee.md) | Auto-scroll on overflow with configurable velocity and edge fades. |
 | [`pinchZoom`](modifiers/pinch-zoom.md) | Two-finger zoom with pan; clamped scale. |
+| [`glass`](modifiers/glass.md) | Backdrop sampler that reads as glass. Clear by default; raise saturation, sheen and border for frosted. Supersedes `glassmorphism`. |
 
-See the **Modifiers** nav for the full list (20 standalone + 2 composites).
+See the **Modifiers** nav for the full list (21 standalone + 2 composites).
 
 ## Contributing
 

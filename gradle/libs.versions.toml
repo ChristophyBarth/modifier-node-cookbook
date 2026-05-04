@@ -24,6 +24,9 @@ ktlint = "12.1.2"
 # Screenshot testing (Paparazzi). Pinned to a build that supports AGP 9.x.
 paparazzi = "1.3.5"
 
+# Image loading (sample app only; library has no image dependency)
+coil = "2.7.0"
+
 # Publishing
 mavenPublish = "0.30.0"
 
@@ -51,6 +54,9 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+
+# Image loading (sample app only)
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

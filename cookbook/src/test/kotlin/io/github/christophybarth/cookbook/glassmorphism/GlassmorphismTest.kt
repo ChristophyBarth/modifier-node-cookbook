@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+@file:Suppress("DEPRECATION") // tests for the deprecated modifier
+
 package io.github.christophybarth.cookbook.glassmorphism
 
 import androidx.compose.foundation.layout.Box

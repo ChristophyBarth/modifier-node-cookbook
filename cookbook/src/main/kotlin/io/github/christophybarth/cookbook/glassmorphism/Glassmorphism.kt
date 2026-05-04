@@ -26,13 +26,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Frosted-glass effect over the receiver. On API 31+ uses [RenderEffect.createBlurEffect] for a
- * real backdrop blur; on lower API levels falls back to a translucent [tint] overlay so the
- * effect at least communicates "glass surface" visually.
+ * Frosted-glass effect over the receiver. Blurs whatever the receiver itself renders, so you
+ * have to paint the backdrop _inside_ the modifier's bounds for anything to blur (the sample
+ * draws the page gradient twice). For real backdrop sampling without duplicating content, use
+ * [io.github.christophybarth.cookbook.glass.glass] paired with
+ * [io.github.christophybarth.cookbook.glass.glassSource].
  *
- * Apply this to a composable that sits _on top of_ the content you want blurred. The blur acts
- * on whatever this layer renders; combine with a [androidx.compose.foundation.background] or
- * stacked imagery to get the classic frosted look.
+ * Implementation: `placeWithLayer { renderEffect = RenderEffect.createBlurEffect(...) }` on API
+ * 31+, falling back to the translucent [tint] alone on API 21–30.
  *
  * @param blurRadius Blur radius applied on API 31+.
  * @param tint Translucent tint always painted on top (gives the glass its colour cast and acts
@@ -40,6 +41,13 @@ import androidx.compose.ui.unit.dp
  *
  * @sample io.github.christophybarth.cookbook.samples.GlassmorphismSample
  */
+@Deprecated(
+    message = "glassmorphism only blurs the receiver's own content, which forces callers to draw the backdrop twice. " +
+        "Use rememberGlassState() with Modifier.glassSource(state) on the imagery and " +
+        "Modifier.glass(state, ...) on the panel for true backdrop sampling. Defaults give clear glass; " +
+        "set saturation, sheenAlpha and borderAlpha for the full frosted look.",
+    level = DeprecationLevel.WARNING,
+)
 public fun Modifier.glassmorphism(
     blurRadius: Dp = 24.dp,
     tint: Color = Color.White.copy(alpha = 0.18f),

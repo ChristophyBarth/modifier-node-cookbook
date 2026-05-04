@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -84,7 +85,7 @@ internal fun DemoDetail(entry: CatalogEntry, onBack: () -> Unit) {
  * Fixed-size container that frames a single demo for filming. Same width/height/padding for every
  * modifier so all GIFs share identical canvas dimensions. The surface tint is chosen per modifier
  * via [HeroBackground] — shimmer/dropShadow read better on Light, gradient borders on Dark, and
- * demos that paint their own backdrop (glassmorphism, marquee) opt out via [HeroBackground.Own].
+ * demos that paint their own backdrop (glass, glassmorphism, marquee) opt out via [HeroBackground.Own].
  */
 @Composable
 private fun HeroCanvas(
@@ -98,7 +99,10 @@ private fun HeroCanvas(
         HeroBackground.Own -> Color.Transparent
     }
     if (background == HeroBackground.Own) {
-        Box(modifier = HeroSize, contentAlignment = Alignment.Center) { content() }
+        Box(
+            modifier = Modifier.fillMaxWidth().heightIn(min = HERO_HEIGHT_DP.dp),
+            contentAlignment = Alignment.Center,
+        ) { content() }
     } else {
         Surface(
             modifier = HeroSize,

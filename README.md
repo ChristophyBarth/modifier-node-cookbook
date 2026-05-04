@@ -12,7 +12,7 @@ A curated collection of canonical, production-ready Jetpack Compose modifiers, e
 
 ```kotlin
 dependencies {
-    implementation("io.github.christophybarth:modifier-node-cookbook:0.1.0")
+    implementation("io.github.christophybarth:modifier-node-cookbook:0.1.1")
 }
 ```
 
@@ -20,7 +20,7 @@ Or via the Gradle version catalog (`gradle/libs.versions.toml`):
 
 ```toml
 [versions]
-modifier-node-cookbook = "0.1.0"
+modifier-node-cookbook = "0.1.1"
 
 [libraries]
 modifier-node-cookbook = { module = "io.github.christophybarth:modifier-node-cookbook", version.ref = "modifier-node-cookbook" }
@@ -46,7 +46,7 @@ Box(
 
 ## What's in the box
 
-**Standalone modifiers (20):**
+**Standalone modifiers (21):**
 
 | Modifier | What it does |
 |---|---|
@@ -62,7 +62,8 @@ Box(
 | `Modifier.gradientBorder(brush, width, …)` | Animated gradient stroke around the receiver. |
 | `Modifier.colorPulse(colors, durationMs)` | Periodic colour cycling for badges and attention. |
 | `Modifier.shake(trigger, intensity, …)` | Single-shot horizontal shake driven by a trigger key. |
-| `Modifier.glassmorphism(blurRadius, tint)` | Frosted glass; real blur on API 31+, tint fallback below. |
+| `Modifier.glass(state, blurRadius, saturation, chromaticAberration, hueShift, tint, sheenAlpha, borderAlpha, shape)` + `Modifier.glassSource(state)` | Backdrop sampler that reads as glass. Defaults are clear (blur + dark scrim); raise `saturation`, `sheenAlpha`, `borderAlpha` for the full frosted look. Pass `chromaticAberration > 0.dp` for a two-part rainbow rim (content refraction + additive angular spectrum); `hueShift` rotates the spectrum. AGSL `RuntimeShader` chain on API 33+. Supersedes `glassmorphism`. |
+| ~~`Modifier.glassmorphism(blurRadius, tint)`~~ | _Deprecated._ Self-blur only; needs the backdrop drawn twice. Use `glass` instead. |
 | `Modifier.bounceOnAppear(initialScale, spring)` | Single-shot entry bounce on attach. |
 | `Modifier.revealOnScroll(translationY, threshold, …)` | Fade + translate in as element enters the viewport. |
 | `Modifier.marquee(direction, gap, fadeEdges, …)` | Auto-scroll on overflow with configurable velocity. |
@@ -116,7 +117,7 @@ mkdocs serve
 ./gradlew :cookbook:publishToMavenLocal
 
 # Cut a release (CI does this when you push a tag)
-git tag v0.1.0 && git push --tags
+git tag v0.1.1 && git push --tags
 ```
 
 ## Contributing

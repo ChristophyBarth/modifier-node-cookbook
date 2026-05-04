@@ -26,7 +26,7 @@ import io.github.christophybarth.cookbook.sample.screens.ColorPulseScreen
 import io.github.christophybarth.cookbook.sample.screens.DragToReorderScreen
 import io.github.christophybarth.cookbook.sample.screens.DropShadowScreen
 import io.github.christophybarth.cookbook.sample.screens.FadeScrollEdgesScreen
-import io.github.christophybarth.cookbook.sample.screens.GlassmorphismScreen
+import io.github.christophybarth.cookbook.sample.screens.GlassScreen
 import io.github.christophybarth.cookbook.sample.screens.GradientBorderScreen
 import io.github.christophybarth.cookbook.sample.screens.HoverElevationScreen
 import io.github.christophybarth.cookbook.sample.screens.InteractiveCardScreen
@@ -88,7 +88,7 @@ internal enum class HeroBackground {
     Light,
     /** Deep slate. Best for gradient borders and color pulses that pop against dark. */
     Dark,
-    /** Skip the surface entirely — the demo provides its own background (glassmorphism, marquee). */
+    /** Skip the surface entirely — the demo provides its own background (glass, marquee). */
     Own,
 }
 
@@ -407,39 +407,51 @@ internal fun catalogEntries(): List<CatalogEntry> = listOf(
         """.trimIndent(),
     ) { ShakeScreen() },
     CatalogEntry(
-        id = "glassmorphism",
-        title = "Modifier.glassmorphism",
-        description = "Frosted glass; real blur on API 31+, tint fallback below.",
+        id = "glass",
+        title = "Modifier.glass",
+        description = "Backdrop sampler that reads as glass. Defaults are clear; raise saturation, sheen and border for frosted.",
         background = HeroBackground.Own,
         code = """
-            // The same gradient is drawn twice: once as the visible background and once inside
-            // the glass card so glassmorphism's RenderEffect has real pixels to blur (simulating
-            // backdrop blur).
-            val gradient = Brush.linearGradient(
-                listOf(Color(0xFFEF4444), Color(0xFFFBBF24), Color(0xFF22D3EE), Color(0xFF8B5CF6)),
-            )
-            Box(
-                modifier = Modifier.fillMaxWidth().height(180.dp).background(gradient),
-                contentAlignment = Alignment.Center,
-            ) {
+            // glassSource records the backdrop; glass replays it blurred at the source's offset.
+            val state = rememberGlassState()
+            val pager = rememberPagerState(pageCount = { pages.size })
+            val shape = RoundedCornerShape(14.dp)
+            Box(modifier = Modifier.fillMaxWidth().height(240.dp).clip(RoundedCornerShape(20.dp))) {
+                HorizontalPager(state = pager, modifier = Modifier.fillMaxSize().glassSource(state)) { i ->
+                    AsyncImage(model = pages[i], contentDescription = null,
+                        contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+                }
+
+                // Clear glass.
                 Box(
                     modifier = Modifier
-                        .size(width = 240.dp, height = 100.dp)
-                        .clip(RoundedCornerShape(20.dp)),
-                    contentAlignment = Alignment.Center,
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .padding(12.dp)
+                        .clip(shape)
+                        .glass(state, shape = shape)
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
                 ) {
-                    // This inner box provides gradient pixels for glassmorphism to blur.
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .glassmorphism(blurRadius = 20.dp, tint = Color.White.copy(alpha = 0.30f))
-                            .background(gradient),
-                    )
-                    Text("Frosted glass", color = Color.White, style = MaterialTheme.typography.titleMedium)
+                    Text("Clear glass · page ${'$'}{pager.currentPage + 1}", color = Color.White)
                 }
+
+                // Frosted glass.
+                Box(
+                    modifier = Modifier
+                        .clip(shape)
+                        .glass(
+                            state,
+                            blurRadius = 24.dp,
+                            saturation = 1.6f,
+                            tint = Color.White.copy(alpha = 0.15f),
+                            sheenAlpha = 0.18f,
+                            borderAlpha = 0.45f,
+                            shape = shape,
+                        ),
+                ) { Text("Frosted glass · page ${'$'}{pager.currentPage + 1}", color = Color.White) }
             }
         """.trimIndent(),
-    ) { GlassmorphismScreen() },
+    ) { GlassScreen() },
     CatalogEntry(
         id = "bounceOnAppear",
         title = "Modifier.bounceOnAppear",

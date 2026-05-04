@@ -33,6 +33,9 @@ import io.github.christophybarth.cookbook.dragtoreorder.dragToReorder
 import io.github.christophybarth.cookbook.dragtoreorder.rememberReorderableState
 import io.github.christophybarth.cookbook.dropshadow.dropShadow
 import io.github.christophybarth.cookbook.fadeedges.fadeScrollEdges
+import io.github.christophybarth.cookbook.glass.glass
+import io.github.christophybarth.cookbook.glass.glassSource
+import io.github.christophybarth.cookbook.glass.rememberGlassState
 import io.github.christophybarth.cookbook.glassmorphism.glassmorphism
 import io.github.christophybarth.cookbook.gradientborder.gradientBorder
 import io.github.christophybarth.cookbook.hoverelevation.hoverElevation
@@ -149,6 +152,7 @@ import io.github.christophybarth.cookbook.tilt.tilt
     @Suppress("UNUSED_EXPRESSION") trigger
 }
 
+@Suppress("DEPRECATION")
 @Composable public fun GlassmorphismSample() {
     Box(
         modifier = Modifier
@@ -156,6 +160,25 @@ import io.github.christophybarth.cookbook.tilt.tilt
             .clip(RoundedCornerShape(20.dp))
             .glassmorphism(blurRadius = 24.dp, tint = Color.White.copy(alpha = 0.18f)),
     )
+}
+
+@Composable public fun GlassSample() {
+    val state = rememberGlassState()
+    val shape = RoundedCornerShape(18.dp)
+    Box(modifier = Modifier.size(width = 240.dp, height = 160.dp)) {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .glassSource(state)
+                .background(Color(0xFF8B5CF6)),
+        )
+        Box(
+            modifier = Modifier
+                .size(width = 200.dp, height = 56.dp)
+                .clip(shape)
+                .glass(state = state, chromaticAberration = 24.dp, shape = shape),
+        )
+    }
 }
 
 @Composable public fun BounceOnAppearSample() {

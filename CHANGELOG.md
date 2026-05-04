@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `Modifier.glass(state, blurRadius, saturation, chromaticAberration, hueShift, tint, sheenAlpha, borderAlpha, shape)` paired with `Modifier.glassSource(state)` and `rememberGlassState()`: a backdrop-sampling recipe that handles both clear and frosted glass through one API. The source records into a shared `GraphicsLayer`; the panel reads it back, translated via `LayoutCoordinates.localPositionOf(...)` so the visible slice matches what is actually behind. Defaults render as **clear glass**: blur + subtle scrim + specular border + diagonal sheen. Opt into **frosted glass** by raising `saturation`, `tint` alpha, `sheenAlpha`, and `borderAlpha`. Opt into **rainbow rim refraction** by passing `chromaticAberration > 0.dp`: an AGSL shader on a private per-panel `GraphicsLayer` draws a two-part chromatic rim (content channel refraction with R/B shifted radially, plus an additive angular rainbow that rings the panel edge continuously). `hueShift` (0f–1f) rotates the spectrum around the rim. Both `chromaticAberration` and `hueShift` require API 33+. Without the saturation pass, Gaussian blur in linear RGB averages chroma toward grey, and that's what distinguishes "muddy plastic" from "luminous glass."
+
+### Deprecated
+
+- `Modifier.glassmorphism(blurRadius, tint)`. Self-blur only: callers had to paint the backdrop a second time inside the panel for the blur to have anything to act on. Migrate to `rememberGlassState()` + `Modifier.glassSource(state)` on the imagery + `Modifier.glass(state, ...)` on the panel. The old API still ships and works; expect removal in `0.3.x`.
+
 ## [0.1.1] - 2026-04-29
 
 ### Fixed

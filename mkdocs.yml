@@ -63,7 +63,7 @@ nav:
       - gradientBorder: modifiers/gradient-border.md
       - colorPulse: modifiers/color-pulse.md
       - shake: modifiers/shake.md
-      - glassmorphism: modifiers/glassmorphism.md
+      - glass: modifiers/glass.md
       - bounceOnAppear: modifiers/bounce-on-appear.md
       - revealOnScroll: modifiers/reveal-on-scroll.md
       - marquee: modifiers/marquee.md
