@@ -76,7 +76,8 @@ private const val SATURATION_SHADER_INPUT_NAME = "content"
  *
  * 13 blur taps: center (0.20), 4 cardinal at radius (0.10 each), 4 diagonal at ~0.707·radius
  * (0.075 each), 4 cardinal at 1.5·radius (0.025 each). Weights sum to 1.0.
- * `rimMask = smoothstep(0.62, 1.0, r)` confines both effects to the outer ~38% of the panel.
+ * `rimMask = smoothstep(bandStart, 1.0, r)` confines both effects to a rim band whose width
+ * grows with the slider: `bandStart = mix(0.92, 0.52, norm)` (outer ~8% at 0 dp, ~48% at 64 dp).
  */
 private const val GLASS_SHADER_SOURCE = """
     uniform shader content;
@@ -276,11 +277,15 @@ internal class GlassSourceNode(
  *  3. **Saturation boost** ([saturation]). API 33+ via AGSL [RuntimeShader] chained ahead of
  *     the blur. `1f` = no change. Set to `1.4f`–`1.8f` for the "luminous glass" look; without
  *     it, Gaussian blur in linear RGB averages colours toward grey.
- *  4. **RGB refraction** ([chromaticAberration]). API 33+ via AGSL [RuntimeShader] chained on
- *     top of saturation. Five wavelength taps along the radial axis, gated by a `smoothstep`
- *     so only the outer ~38% of the panel carries the rainbow band; the interior stays clean
- *     and the rim looks like Apple's Liquid Glass prism. `0.dp` off; `16.dp`–`32.dp` for a
- *     pronounced rainbow. Lower [tint] alpha if you don't want the fringe painted over.
+ *  4. **Rainbow rim** ([chromaticAberration]). API 33+ via AGSL [RuntimeShader]. When
+ *     aberration is on, blur + saturation + the rim are baked into a single combined shader
+ *     rather than chained (chaining a runtime shader after `BlurEffect` destroys the rim's
+ *     raw colour edges). The rim is two-part: R and B taps shifted radially in opposite
+ *     directions for refraction (G stays at the panel-local coord), plus an additive angular
+ *     rainbow keyed off the pixel's angle around the panel centre. A dynamic `smoothstep`
+ *     band (`bandStart = mix(0.92, 0.52, norm)`, so ~8% rim at small values, ~48% at the
+ *     64 dp ceiling) confines both effects to the outer ring. `0.dp` off; `16.dp`–`32.dp`
+ *     for a pronounced rainbow. Lower [tint] alpha if you don't want the fringe painted over.
  *  5. **Tint** ([tint]). Black-alpha for clear-glass legibility scrim; white-alpha for frost.
  *  6. **Diagonal sheen** ([sheenAlpha]). Bright top-left → transparent bottom-right. `0f` off.
  *  7. **Specular border** ([borderAlpha]). 1-px stroke along [shape] with a top-bright,

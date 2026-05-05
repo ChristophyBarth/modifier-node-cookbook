@@ -14,7 +14,7 @@ dependencyResolutionManagement {
 
 // app/build.gradle.kts
 dependencies {
-    implementation("io.github.christophybarth:modifier-node-cookbook:0.1.1")
+    implementation("io.github.christophybarth:modifier-node-cookbook:0.2.0")
 }
 ```
 

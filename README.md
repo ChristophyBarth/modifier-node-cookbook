@@ -12,7 +12,7 @@ A curated collection of canonical, production-ready Jetpack Compose modifiers, e
 
 ```kotlin
 dependencies {
-    implementation("io.github.christophybarth:modifier-node-cookbook:0.1.1")
+    implementation("io.github.christophybarth:modifier-node-cookbook:0.2.0")
 }
 ```
 
@@ -20,7 +20,7 @@ Or via the Gradle version catalog (`gradle/libs.versions.toml`):
 
 ```toml
 [versions]
-modifier-node-cookbook = "0.1.1"
+modifier-node-cookbook = "0.2.0"
 
 [libraries]
 modifier-node-cookbook = { module = "io.github.christophybarth:modifier-node-cookbook", version.ref = "modifier-node-cookbook" }
@@ -117,7 +117,7 @@ mkdocs serve
 ./gradlew :cookbook:publishToMavenLocal
 
 # Cut a release (CI does this when you push a tag)
-git tag v0.1.1 && git push --tags
+git tag v0.2.0 && git push --tags
 ```
 
 ## Contributing

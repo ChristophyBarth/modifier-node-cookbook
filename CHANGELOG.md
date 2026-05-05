@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.0] - 2026-05-04
 
 ### Added
 
@@ -52,5 +52,6 @@ Initial release. Twenty production-ready standalone modifiers and two composites
 
 Sample app with one screen per modifier. MkDocs Material doc site. CI on PRs, doc deploy on `main`, Maven Central publish on tag.
 
+[0.2.0]: https://github.com/ChristophyBarth/modifier-node-cookbook/releases/tag/v0.2.0
 [0.1.1]: https://github.com/ChristophyBarth/modifier-node-cookbook/releases/tag/v0.1.1
 [0.1.0]: https://github.com/ChristophyBarth/modifier-node-cookbook/releases/tag/v0.1.0
