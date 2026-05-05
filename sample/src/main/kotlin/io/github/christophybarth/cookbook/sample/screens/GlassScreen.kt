@@ -54,64 +54,85 @@ internal fun GlassScreen() {
     var hueShift by remember { mutableFloatStateOf(0f) }
 
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(280.dp)
-                .clip(RoundedCornerShape(20.dp)),
-        ) {
-            HorizontalPager(
-                state = pager,
-                modifier = Modifier.fillMaxSize().glassSource(state),
-            ) { i ->
-                AsyncImage(
-                    model = GlassPages[i],
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize().background(Color(0xFFE5E7EB)),
-                )
-            }
+        GlassHero(state = state, pager = pager, aberration = aberration.dp, hueShift = hueShift)
+        GlassControls(
+            aberration = aberration,
+            onAberrationChange = { aberration = it },
+            hueShift = hueShift,
+            onHueShiftChange = { hueShift = it },
+        )
+    }
+}
 
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                ClearGlassCaption(
-                    state = state,
-                    currentPage = pager.currentPage,
-                    chromaticAberration = aberration.dp,
-                    hueShift = hueShift,
-                )
-                FrostedGlassCaption(state = state, currentPage = pager.currentPage)
-                GlassPageDots(count = GlassPages.size, currentIndex = pager.currentPage)
-            }
+@Composable
+private fun GlassHero(
+    state: GlassState,
+    pager: androidx.compose.foundation.pager.PagerState,
+    aberration: Dp,
+    hueShift: Float,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(280.dp)
+            .clip(RoundedCornerShape(20.dp)),
+    ) {
+        HorizontalPager(
+            state = pager,
+            modifier = Modifier.fillMaxSize().glassSource(state),
+        ) { i ->
+            AsyncImage(
+                model = GlassPages[i],
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize().background(Color(0xFFE5E7EB)),
+            )
         }
 
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                text = "Clear glass controls",
-                style = MaterialTheme.typography.titleSmall,
+            ClearGlassCaption(
+                state = state,
+                currentPage = pager.currentPage,
+                chromaticAberration = aberration,
+                hueShift = hueShift,
             )
-            GlassSlider(
-                label = "Rainbow · ${aberration.toInt()} dp",
-                value = aberration,
-                onValueChange = { aberration = it },
-                valueRange = 0f..64f,
-            )
-            GlassSlider(
-                label = "Hue shift · ${(hueShift * 360).toInt()}°",
-                value = hueShift,
-                onValueChange = { hueShift = it },
-                valueRange = 0f..1f,
-            )
+            FrostedGlassCaption(state = state, currentPage = pager.currentPage)
+            GlassPageDots(count = GlassPages.size, currentIndex = pager.currentPage)
         }
+    }
+}
+
+@Composable
+private fun GlassControls(
+    aberration: Float,
+    onAberrationChange: (Float) -> Unit,
+    hueShift: Float,
+    onHueShiftChange: (Float) -> Unit,
+) {
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Text(text = "Clear glass controls", style = MaterialTheme.typography.titleSmall)
+        GlassSlider(
+            label = "Rainbow · ${aberration.toInt()} dp",
+            value = aberration,
+            onValueChange = onAberrationChange,
+            valueRange = 0f..64f,
+        )
+        GlassSlider(
+            label = "Hue shift · ${(hueShift * 360).toInt()}°",
+            value = hueShift,
+            onValueChange = onHueShiftChange,
+            valueRange = 0f..1f,
+        )
     }
 }
 
